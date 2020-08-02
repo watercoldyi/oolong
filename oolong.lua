@@ -48,6 +48,10 @@ function oolong.config(opt)
     local err
     g_window,err = sdl.createWindow(opt.window)
     oolong.window = g_window
+    sdl.glSetAttribute(sdl.glAttr.ContextFlags,sdl.glFlags.ForwardCompatible)
+    sdl.glSetAttribute(sdl.glAttr.ContextProfileMask,sdl.glProfile.Core)
+    sdl.glSetAttribute(sdl.glAttr.ContextMajorVersion,4)
+    sdl.glSetAttribute(sdl.glAttr.ContextMinorVersion,1)
     sdl.glSetAttribute(sdl.glAttr.DoubleBuffer,1)
     sdl.glSetAttribute(sdl.glAttr.DepthSize,24)
     sdl.glSetAttribute(sdl.glAttr.StencilSize,8)

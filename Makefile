@@ -33,20 +33,35 @@ src/sdl2/window.o
 
 OBJS = src/gl-render.o src/lua-imgui.o
 
+INC = -I/usr/local/include/SDL2 -I/usr/local/include/lua
+
+CFLAGS = -Wall --shared
+
+mingw: oolong.dll SDL.dll
+
+macos: CFLAGS += -fpic -framework OpenGL 
+macos: oolong.so SDL.so
+
 oolong.dll: $(IMGUI_OBJ) $(OBJS) SDL.dll
-	g++ -Wall --shared  -o $@ $^ -lglew32 -lopengl32 -llua
+	g++ $(CFLAGS)  -o $@ $^ -lglew32 -lopengl32 -llua
 
 SDL.dll: $(SDL2_OBJ)
-	gcc --shared -Wall -I/usr/local/include/SDL2 -L/usr/local/lib/SDL2 -o $@ $^ -lsdl2 -llua
+	gcc $(CFLAGS) -o $@ $^ -lsdl2 -llua
+
+SDL.so: $(SDL2_OBJ)
+	gcc $(CFLAGS) -o $@ $^ -lsdl2 -llua
+
+oolong.so: $(IMGUI_OBJ) $(OBJS) SDL.dll
+	g++ $(CFLAGS) -o $@ $^ -llua -lglew
 
 $(OBJS): %.o : %.cc
-	g++ -Wall -c -o $@ $<
+	g++ -Wall $(INC) -c -o $@ $<
 
 $(IMGUI_OBJ): %.o : %.cpp
 	g++ -Wall -c -o $@ $<
 
 $(SDL2_OBJ): %.o : %.c
-	gcc -Wall -I/usr/local/include/SDL2 -Isrc/sdl2 -c -o $@ $<
+	gcc -Wall $(INC)  -Isrc/sdl2 -c -o $@ $<
 
 clean:
 	-rm ./*.dll

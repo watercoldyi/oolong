@@ -8,7 +8,7 @@ static GLuint g_vbo;
 static GLuint g_ebo;
 
 static GLchar *_vs =
-    "#version 300 es\n"
+    "#version 410 core\n"
     "precision mediump float;\n"
     "layout (location = 0) in vec2 Position;\n"
     "layout (location = 1) in vec2 UV;\n"
@@ -24,7 +24,7 @@ static GLchar *_vs =
     "}\n";
 
 static GLchar *_fs =
-    "#version 300 es\n"
+    "#version 410 core\n"
     "precision mediump float;\n"
     "uniform sampler2D Texture;\n"
     "in vec2 Frag_UV;\n"
